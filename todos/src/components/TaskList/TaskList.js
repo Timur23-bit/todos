@@ -1,11 +1,11 @@
 import React from "react";
-import Task from "../Task/Task";
+import Task from "../Task";
 
 
-function TaskList({todos}) {
-
+function TaskList ({ todos, onDeleted }) {
     const elements = todos.map((item) => {
-        return <Task item = {item} key={item.id}/>;
+        const { id } = item;
+        return <Task item = {item} key={item.id} onDeleted = {() => onDeleted(id)}/>;
     });
 
     return (

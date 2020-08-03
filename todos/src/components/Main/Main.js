@@ -1,11 +1,11 @@
 import React from "react";
-import TaskList from "../TaskList/TaskList";
+import TaskList from "../TaskList";
 
 
-function Main ({data}) {
+function Main ({data, onDeleted}) {
     return (
         <section className="main">
-            <TaskList todos={data} />
+            <TaskList todos={data} onDeleted={onDeleted}/>
         </section>
     )
 }
