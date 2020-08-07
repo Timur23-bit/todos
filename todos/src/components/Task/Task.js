@@ -2,49 +2,25 @@ import React, { Component } from "react";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 
 class Task extends Component {
+    state = {
+        label: this.props.item.label
+    };
 
-    constructor() {
-        super();
+    onLabelChange = (e) => {
+        this.setState({
+            label: e.target.value
+        });
+    };
 
-        this.state = {
-            done: false,
-            edit: false,
-        };
-
-        this.onLabelClick = () => {
-            this.setState((state) => {
-                return {
-                    done: !state.done
-                }
-            })
-        };
-
-        this.onEditClick = () => {
-            const { edit } = this.state;
-
-            if(edit === false) {
-                this.setState({
-                    edit: true
-                })
-            }
-        };
-
-        this.onKeyUp = (e) => {
-
-            if (e.keyCode === 13) {
-                this.setState({
-                    edit: false
-                });
-            }
-        }
-    }
+    onSubmit = (e) => {
+        e.preventDefault();
+        this.props.editItem(this.props.data, this.props.item.id, 'edit', e);
+    };
 
     render () {
-        const { item } = this.props;
-        const { done, edit } = this.state;
+        const { item, onDeleted, onToggleDone, onToggleEdit } = this.props;
+        const {edit, done} = item;
 
-
-        let label = item.label;
         let editing = '';
         let classNames = '';
 
@@ -54,21 +30,42 @@ class Task extends Component {
 
         if (edit) {
             classNames += ' editing';
-            editing = <input type="text" className="edit" placeholder="Editing task"/>;
+            editing = <input
+                type="text"
+                className="edit"
+                onChange={this.onLabelChange}
+                value={this.state.label}
+            />;
         }
 
         return (
-            <li className={classNames}>
+            <li className={classNames} style={item.style}>
                 <div className="view">
                     <input className="toggle" type="checkbox"/>
                     <label>
-                        <span className="description" onClick={this.onLabelClick}>{label}</span>
-                        <span className="created">{formatDistanceToNow(Date.now(), {addSuffix: true})}</span>
+                        <span
+                            className="description"
+                            onClick={onToggleDone}
+                        >
+                            {this.state.label}
+                        </span>
+                        <span
+                            className="created">
+                            {formatDistanceToNow(Date.now(), {addSuffix: true})}
+                        </span>
                     </label>
-                    <button className="icon icon-edit" onClick={this.onEditClick} onKeyUp={this.onKeyUp}/>
-                    <button className="icon icon-destroy" onClick={this.props.onDeleted}/>
+                    <button
+                        className="icon icon-edit"
+                        onClick={onToggleEdit}
+                    />
+                    <button
+                        className="icon icon-destroy"
+                        onClick={onDeleted}
+                    />
                 </div>
-                {editing}
+                <form onSubmit={this.onSubmit}>
+                    {editing}
+                </form>
             </li>
         )
     }
