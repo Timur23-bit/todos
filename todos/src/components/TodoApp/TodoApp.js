@@ -133,7 +133,7 @@ export default class TodoApp extends Component {
             default:
                 return items;
         }
-    }
+    };
 
     render () {
         const { todoData, filter } = this.state;
