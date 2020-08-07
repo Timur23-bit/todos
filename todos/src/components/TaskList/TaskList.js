@@ -1,8 +1,9 @@
 import React from "react";
 import Task from "../Task";
+import PropTypes from "prop-types";
 
 
-function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit,editItem}) {
+export default function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit,editItem}) {
     const elements = todos.map((item) => {
         const { id } = item;
         return <Task
@@ -23,4 +24,16 @@ function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit,editItem}) {
     )
 }
 
-export default TaskList;
+TaskList.defaultProps = {
+    onDeleted: () => {},
+    onToggleDone: () => {},
+    onToggleEdit: () => {},
+    editItem: () => {}
+};
+TaskList.propTypes = {
+    todos: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onDeleted: PropTypes.func,
+    onToggleDone: PropTypes.func,
+    onToggleEdit: PropTypes.func,
+    editItem: PropTypes.func
+};

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import PropTypes from "prop-types";
 
-class Task extends Component {
+export default class Task extends Component {
     state = {
         label: this.props.item.label
     };
@@ -71,4 +72,18 @@ class Task extends Component {
     }
 }
 
-export default Task;
+Task.defaultProps = {
+    onDeleted: () => {},
+    onToggleDone: () => {},
+    onToggleEdit: () => {},
+    editItem: () => {}
+};
+
+Task.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.object).isRequired,
+    item: PropTypes.object.isRequired,
+    onDeleted: PropTypes.func,
+    onToggleDone: PropTypes.func,
+    onToggleEdit: PropTypes.func,
+    editItem: PropTypes.func
+};

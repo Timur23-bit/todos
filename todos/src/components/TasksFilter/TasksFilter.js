@@ -1,6 +1,5 @@
 import React from "react";
-import Footer from "../Footer";
-
+import PropTypes from "prop-types";
 export default class TasksFilter extends React.Component{
 
     buttons = [
@@ -10,17 +9,15 @@ export default class TasksFilter extends React.Component{
     ];
 
     render() {
-
         const{filter, onFilterChange} = this.props;
 
         const buttons = this.buttons.map(({name, label}) => {
             const isActive = filter === name;
             const clazz = isActive ? 'selected' : '';
            return (
-               <li>
+               <li key={name}>
                    <button
                        className={clazz}
-                       key={name}
                        onClick={() =>  onFilterChange(name)}
                    >
                        {label}
@@ -35,3 +32,12 @@ export default class TasksFilter extends React.Component{
         )
     }
 }
+
+TasksFilter.defaultProps = {
+    onFilterChange: () => {}
+};
+
+TasksFilter.propTypes = {
+    filter: PropTypes.string.isRequired,
+    onFilterChange: PropTypes.func
+};
