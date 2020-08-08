@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+
 export default class TasksFilter extends React.Component{
 
     buttons = [
@@ -17,10 +18,10 @@ export default class TasksFilter extends React.Component{
            return (
                <li key={name}>
                    <button
-                       className={clazz}
-                       onClick={() =>  onFilterChange(name)}
-                   >
-                       {label}
+                        type="button"
+                        className={clazz}
+                        onClick={() =>  onFilterChange(name)}>
+                        {label}
                    </button>
                </li>
            )

@@ -15,12 +15,39 @@ export default class TodoApp extends Component {
         filter: 'all' // active, all, done
     };
 
-    createTodoTask(label) {
+    toggleProperty = (arr, id, propName) => {
+        const idx = arr.findIndex((el) => el.id === id);
+
+        const oldItem = arr[idx];
+        const newItem = {...oldItem, [propName]: !oldItem[propName]};
+
+        return [
+            ...arr.slice(0, idx),
+            newItem,
+            ...arr.slice(idx + 1)
+        ];
+    };
+
+    // eslint-disable-next-line react/sort-comp
+    createTodoTask (label) {
         return {
             label,
             edit: false,
             done: false,
             id: Math.floor(Math.random()*10000)
+        }
+    };
+
+    filter = (items, filter) => {
+        switch (filter) {
+            case 'all':
+                return items;
+            case 'active':
+                return  items.filter((item) => !item.done);
+            case 'completed':
+                return  items.filter((item) => item.done);
+            default:
+                return items;
         }
     };
 
@@ -44,11 +71,11 @@ export default class TodoApp extends Component {
         })
     };
 
-    editItem = (arr, id, propName, e) => {
+    editItem = (arr, id, propName, event) => {
         const idx = arr.findIndex((el) => el.id === id);
 
         const oldItem = arr[idx];
-        const newItem = {...oldItem, [propName]: !oldItem[propName], label: e.target.value};
+        const newItem = {...oldItem, [propName]: !oldItem[propName], label: event.target.value};
 
         const newArr = [
             ...arr.slice(0, idx),
@@ -75,22 +102,11 @@ export default class TodoApp extends Component {
         })
     };
 
-    toggleProperty (arr, id, propName) {
-        const idx = arr.findIndex((el) => el.id === id);
 
-        const oldItem = arr[idx];
-        const newItem = {...oldItem, [propName]: !oldItem[propName]};
-
-        return [
-            ...arr.slice(0, idx),
-            newItem,
-            ...arr.slice(idx + 1)
-        ];
-
-    };
 
     clearCompleted = () => {
-        const newArr = this.state.todoData.filter((el) => !el.done);
+        const {todoData} = this.state;
+        const newArr = todoData.filter((el) => !el.done);
 
         this.setState(() => {
             return {
@@ -122,18 +138,7 @@ export default class TodoApp extends Component {
         });
     };
 
-    filter (items, filter) {
-        switch (filter) {
-            case 'all':
-                return items;
-            case 'active':
-                return  items.filter((item) => !item.done);
-            case 'completed':
-                return  items.filter((item) => item.done);
-            default:
-                return items;
-        }
-    };
+
 
     render () {
         const { todoData, filter } = this.state;

@@ -1,6 +1,6 @@
 import React from "react";
-import TaskList from "../TaskList";
 import PropTypes from "prop-types";
+import TaskList from "../TaskList";
 
 
 export default function Main ({data, onDeleted, onToggleDone, onToggleEdit, editItem}) {

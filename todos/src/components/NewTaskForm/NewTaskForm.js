@@ -1,20 +1,23 @@
 import React, {Component} from "react";
+import PropTypes from "prop-types";
 
 export default class NewTaskForm extends Component {
-    state = {
+    state= {
         label: ''
     };
 
-    onLabelChange = (e) => {
+    onLabelChange = (event) => {
         this.setState({
-           label: e.target.value
+           label: event.target.value
         });
     };
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        if (this.state.label.length !== 0) {
-            this.props.addItem(this.state.label);
+    onSubmit = (event) => {
+        event.preventDefault();
+        const {addItem} = this.props;
+        const {label} = this.state;
+        if (label.length !== 0) {
+            addItem(label);
             this.setState({
                 label: ''
             })
@@ -22,6 +25,7 @@ export default class NewTaskForm extends Component {
     };
 
     render () {
+        const {label} = this.state;
         return (
             <header className="header">
                 <h1>todos</h1>
@@ -29,17 +33,19 @@ export default class NewTaskForm extends Component {
                     <input
                         className="new-todo"
                         placeholder="What needs to be done?"
-                        autoFocus
                         onChange={this.onLabelChange}
-                        value={this.state.label}
+                        value={label}
                     />
                 </form>
             </header>
         )
     }
-
 }
 
 NewTaskForm.defaultProps = {
     addItem: () => {}
+};
+
+NewTaskForm.propTypes = {
+    addItem: PropTypes.func
 };
