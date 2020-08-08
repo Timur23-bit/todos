@@ -19,7 +19,7 @@ export default class Task extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         // eslint-disable-next-line react/destructuring-assignment
-        this.props.editItem(this.props.data, this.props.item.id, 'edit', event);
+        this.props.editItem(this.props.item.id, 'edit', this.state.label);
     };
 
     render () {

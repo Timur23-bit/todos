@@ -71,23 +71,24 @@ export default class TodoApp extends Component {
         })
     };
 
-    editItem = (arr, id, propName, event) => {
-        const idx = arr.findIndex((el) => el.id === id);
+    editItem = (id, propName, label) => {
+        const {todoData} = this.state;
+        const idx = todoData.findIndex((el) => el.id === id);
 
-        const oldItem = arr[idx];
-        const newItem = {...oldItem, [propName]: !oldItem[propName], label: event.target.value};
+        const oldItem = todoData[idx];
+        const newItem = {...oldItem, [propName]: !oldItem[propName]};
+        const newIt = {...newItem, label};
+        this.setState(({ todoData }) => {
+            const newArr = [
+                ...todoData.slice(0, idx),
+                newIt,
+                ...todoData.slice(idx + 1)
+            ];
 
-        const newArr = [
-            ...arr.slice(0, idx),
-            newItem,
-            ...arr.slice(idx + 1)
-        ];
-
-        this.setState(() => {
             return {
                 todoData: newArr
             }
-        })
+        });
     };
 
     deleteTask = (id) => {
