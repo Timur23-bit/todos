@@ -34,6 +34,8 @@ export default class TodoApp extends Component {
       label,
       edit: false,
       done: false,
+      min: 0,
+      sec: 5,
       id: Math.floor(Math.random()*10000)
     }
   };
@@ -51,11 +53,22 @@ export default class TodoApp extends Component {
     }
   };
 
-  addItem = (text) => {
+  timer = (min, sec) => {
+
+    this.setState({
+      min: min,
+      sec: sec
+    });
+    console.log(this.state);
+  };
+
+  addItem = (text, min, sec) => {
     const newItem = {
       label: text,
       edit: false,
       done: false,
+      min: min,
+      sec: sec,
       id: Math.floor(Math.random()*10000)
     };
 
@@ -161,6 +174,7 @@ export default class TodoApp extends Component {
           onToggleDone={this.onToggleDone}
           onToggleEdit={this.onToggleEdit}
           editItem={this.editItem}
+          timer={this.timer}
         />
         <Footer
           toDo={todoCount}

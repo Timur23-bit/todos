@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropTypes from "prop-types";
 
-export default class Task extends Component {
+import Timer from '../task-timer';
 
+export default class Task extends Component {
 
   state = {
     // eslint-disable-next-line react/destructuring-assignment
-    label: this.props.item.label
+    label: this.props.item.label,
+    min: this.props.item.min,
+    sec: this.props.item.sec
   };
 
   onLabelChange = (event) => {
@@ -22,14 +25,22 @@ export default class Task extends Component {
     this.props.editItem(this.props.item.id, 'edit', this.state.label);
   };
 
+  onStart = (min, sec) => {
+    this.setState({
+      min,
+      sec
+    })
+  };
+
   render () {
-    const { item, onDeleted, onToggleDone, onToggleEdit } = this.props;
+    const { item, onDeleted, onToggleDone, onToggleEdit} = this.props;
     const {edit, done} = item;
-    const {label} = this.state;
+    const {label, min, sec} = this.state;
 
     let editing = '';
     let classNames = '';
     let checked = '';
+
     if (done) {
       classNames += ' completed';
       checked += 'checked'
@@ -54,16 +65,20 @@ export default class Task extends Component {
             onChange={onToggleDone}
             checked={checked}/>
           <label>
+            <span
+              className="title"
+              onClick={onToggleDone}>
+              {label}
+            </span>
+            <Timer
+              min={min}
+              sec={sec}
+            />
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */}
             <span
-              className="description"
-              onClick={onToggleDone}>
-                            {label}
-                        </span>
-            <span
-              className="created">
+              className="description">
                             {`created ${  formatDistanceToNow(Date.now(), {addSuffix: true})}`}
-                        </span>
+            </span>
           </label>
           {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
           <button

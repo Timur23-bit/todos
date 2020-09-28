@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import TaskList from "../TaskList";
 
 
-export default function Main ({data, onDeleted, onToggleDone, onToggleEdit, editItem}) {
+export default function Main ({data, onDeleted, onToggleDone, onToggleEdit, editItem, timer}) {
   return (
     <section className="main">
       <TaskList
@@ -12,6 +12,7 @@ export default function Main ({data, onDeleted, onToggleDone, onToggleEdit, edit
         onToggleDone={onToggleDone}
         onToggleEdit={onToggleEdit}
         editItem={editItem}
+        timer={timer}
       />
     </section>
   )

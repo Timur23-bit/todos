@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import Task from "../Task";
 
 
-export default function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit,editItem}) {
+export default function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit,editItem, timer}) {
   const elements = todos.map((item) => {
     const { id } = item;
     return <Task
@@ -14,6 +14,7 @@ export default function TaskList ({ todos, onDeleted, onToggleDone, onToggleEdit
       onToggleDone={() => onToggleDone(id)}
       onToggleEdit={() => onToggleEdit(id)}
       editItem={editItem}
+      timer={timer}
     />;
   });
 
